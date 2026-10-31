@@ -1,6 +1,53 @@
 x=[1 2 -3 2 1];
 nx=0:4;
 h=[1 0 -1];
+nh=0:2;
+
+ny=nx(1)+nh(1):nx($)+nh($);
+y1=zeros(1,length(ny));
+
+hf=h($:-1:1);
+nhf=-nh($:-1:1);
+
+for i=1:length(ny)
+    n=ny(i);
+    ns=nhf+n;
+    s=0;
+    for j=1:length(ns)
+        idx=find(nx==ns(j));
+        if ~isempty(idx) then
+            s=s+hf(j)*x(idx);
+        end
+    end
+    y1(i)=s;
+end
+
+disp(y1);
+
+x=[1 2 -3 2 1];
+h=[1 0 -1];
+
+Lx=length(x);
+Lh=length(h);
+Ly=Lx+Lh-1;
+
+H=zeros(Ly,Lx);
+for i=1:Ly
+    for j=1:Lx
+        k=i-j+1;
+        if k>=1 & k<=Lh then
+            H(i,j)=h(k);
+        end
+    end
+end
+
+y2=(H*x')';
+disp(H);
+disp(y2);
+
+x=[1 2 -3 2 1];
+nx=0:4;
+h=[1 0 -1];
 y=convol(x,h);
 ny=0:length(y)-1;
 
